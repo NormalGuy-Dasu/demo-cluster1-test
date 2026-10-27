@@ -4,6 +4,7 @@ Thin wrapper only: it calls the project code unchanged. One shared model, one vi
 size limits, and the photo is processed in memory only (nothing is written to disk, D-019).
 """
 import gc
+import os
 import resource
 import shutil
 import sys
@@ -12,6 +13,9 @@ import time
 from pathlib import Path
 
 import streamlit as st
+
+# The project does not use alpha matting; this avoids 30-60 s of numba compile at every start.
+os.environ.setdefault("NUMBA_DISABLE_JIT", "1")
 
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
